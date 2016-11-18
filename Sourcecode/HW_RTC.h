@@ -8,9 +8,12 @@
 #ifndef HW_RTC_H_
 #define HW_RTC_H_
 
+namespace Hardware {
 
-void RTC_Init(void);
-void RTC_IRQHandler(void);
-
+class HW_RTC {
+    public:
+        static void Init(void);
+};
+}
 
 #endif /* HW_RTC_H_ */

@@ -11,9 +11,12 @@
 #include "stm32f10x_rcc.h"
 
 namespace Hardware {
-void RCC_Configuration(void);
+
+class HW_RCC {
+    public:
+        static void Init(void);
+};
+
 }
-
-
 
 #endif /* HW_RCC_H_ */

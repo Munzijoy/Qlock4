@@ -11,8 +11,12 @@
 #include "stm32f10x_spi.h"
 
 namespace Hardware {
-    void spi1_init(void);
-    int spi1_tx(uint16_t u16Tx);
+
+class HW_SPI {
+    public:
+        static void Init(void);
+        static int Transmit16Bit(uint16_t u16Tx);
+};
 }
 
 

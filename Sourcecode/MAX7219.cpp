@@ -1,3 +1,10 @@
+/*
+ * MAX7219.cpp
+ *
+ *  Created on: ???
+ *      Author: t.linz
+ */
+
 #include "MAX7219.h"
 #include "stm32f10x_gpio.h"
 #include "Develop.h"
@@ -10,7 +17,7 @@ namespace Driver {
         Driver::MAX7219(4), Driver::MAX7219(5), Driver::MAX7219(6), Driver::MAX7219(7) 
     };
     
-void Delay(__IO uint32_t nCount){
+void Delay(uint32_t nCount){
   for(; nCount != 0; nCount--);
 }
 
@@ -18,9 +25,9 @@ void Delay(__IO uint32_t nCount){
     void MAX7219::Init(void){
 #if DEVELOP
     //jedes IC kurz in den Testmodus versetzen und Testmodus wieder deaktivieren (-> Blinken)
-        for (uint8_t num = 0; num < 4; num++){
+        for (uint8_t num = 0; num < DISPLAY_TEST_DURATION; num++){
             SendDataToAddress(eDisplayTest, num % 2, _u8NumberInDaisyChain);
-            Delay(0x7FFFF);
+            Delay(DISPLAY_TEST_SPEED);
         }
 #endif
         SendDataToAddress(eDisplayTest, 0, _u8NumberInDaisyChain);
@@ -47,17 +54,17 @@ void Delay(__IO uint32_t nCount){
     }
 
     // writes the content of data to the device register for the num device in the daisy chain
-    void MAX7219::SendDataToAddress(uint16_t address, uint8_t data, uint8_t num){
+    void MAX7219::SendDataToAddress(uint16_t u16Address, uint8_t u8Data, uint8_t u8Num){
         GPIO_WriteBit(GPIOA, GPIO_Pin_4, Bit_RESET);
         Delay(500);
         
-        for (uint8_t i = 0; i < 3 - num; i++){
+        for (uint8_t i = 0; i < 3 - u8Num; i++){
             WriteDataToBus((eNoOp << 8) | 0xFF);
         }
         
-        WriteDataToBus((address << 8) | data);
+        WriteDataToBus((u16Address << 8) | u8Data);
         
-        for (uint8_t i = 0; i < num; i++){
+        for (uint8_t i = 0; i < u8Num; i++){
             WriteDataToBus((eNoOp << 8) | 0xFF);
         }
         
@@ -91,7 +98,7 @@ void Delay(__IO uint32_t nCount){
     
     // writes data to the spi bus
     void MAX7219::WriteDataToBus(uint16_t data){
-        Hardware::spi1_tx(data);
+        (void)Hardware::HW_SPI::Transmit16Bit(data);
         Delay(50);
     }
 }

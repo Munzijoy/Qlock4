@@ -414,12 +414,27 @@
       </TargetOption>
       <Groups>
         <Group>
-          <GroupName>Main</GroupName>
+          <GroupName>Application</GroupName>
           <Files>
             <File>
               <FileName>main.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\main.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>LedWrapper.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\LedWrapper.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>DisplayMode.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\DisplayMode.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>LookupTable.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\LookupTable.cpp</FilePath>
             </File>
           </Files>
         </Group>
@@ -445,6 +460,16 @@
               <FileName>HW_RCC.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\HW_RCC.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>HW_IRQ.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\HW_IRQ.c</FilePath>
+            </File>
+            <File>
+              <FileName>HW_RTC.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\HW_RTC.cpp</FilePath>
             </File>
           </Files>
         </Group>

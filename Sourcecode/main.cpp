@@ -1,26 +1,42 @@
+/*
+ * main.cpp
+ *
+ *  Created on: 04.10.2016
+ *      Author: t.linz
+ */
+
 #include "LedWrapper.h"
 #include "HW_RCC.h"
 #include "HW_SPI.h"
 #include "HW_RTC.h"
-#include "Develop.h"
+#include "DisplayMode.h"
+#include <stdlib.h>
 
-void Delay(__IO uint32_t nCount){
-  for(; nCount != 0; nCount--);
+void ExitHandler(void){
+    for(;;);
 }
 
 // entry point of the application
 int main(void){
-    Hardware::RCC_Configuration();
-    Hardware::spi1_init();
-    GPIO_WriteBit(GPIOA, GPIO_Pin_4, Bit_SET);
+    Hardware::HW_RCC::Init();
+    Hardware::HW_SPI::Init();
+    Hardware::HW_RTC::Init();
     
-    RTC_Init();
+    atexit(ExitHandler);
     
-    LedWrapper::InitLedWrapper();
-    LedWrapper::SetColorForAllLeds(LedWrapper::eYellow);
+    Application::LedWrapper::InitLedWrapper();
+    Application::LedWrapper::SetColorForAllLeds(Application::LedWrapper::eYellow);
     
-    LedWrapper::SetOrClearWord(LedWrapper::eDrei, true);
-    LedWrapper::SetOrClearWord(LedWrapper::eSechs, true);
+    Application::DisplayMode::SetAuthorMode();
+    Application::DisplayMode::SetEmptyMode();
+    
+    Application::DisplayMode::SetMatrixEffectMode();
+    Application::DisplayMode::SetEmptyMode();
+    
+    Application::DisplayMode::SetTimeMode();
+    
+    Application::LedWrapper::SetOrClearWord(Application::LedWrapper::eDrei);
+    Application::LedWrapper::SetOrClearWord(Application::LedWrapper::eSechs);
     
     for(;;);
 }

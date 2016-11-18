@@ -9,7 +9,7 @@
 
 namespace Hardware {
 
-void RCC_Configuration(void){
+void HW_RCC::Init(void){
 
         /* RCC system reset(for debug purpose) */
         RCC_DeInit();

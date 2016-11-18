@@ -9,7 +9,7 @@
 
 namespace Hardware {
 
-void spi1_init(void){
+void HW_SPI::Init(void){
     SPI_InitTypeDef  SPI_InitStructure;
     GPIO_InitTypeDef GPIO_InitStructure;
     
@@ -38,9 +38,11 @@ void spi1_init(void){
     
     SPI_CalculateCRC(SPI1, DISABLE);
     SPI_Cmd(SPI1, ENABLE);
+    
+    GPIO_WriteBit(GPIOA, GPIO_Pin_4, Bit_SET);
 }
 
-int spi1_tx(uint16_t u16Tx){
+int HW_SPI::Transmit16Bit(uint16_t u16Tx){
     int tmp=0;
     SPI_I2S_SendData(SPI1, u16Tx);
     while(SPI_I2S_GetFlagStatus(SPI1,SPI_I2S_FLAG_TXE)==RESET);

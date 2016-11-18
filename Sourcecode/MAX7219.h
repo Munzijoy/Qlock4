@@ -1,12 +1,24 @@
+/*
+ * MAX7219.h
+ *
+ *  Created on: ???
+ *      Author: t.linz
+ */
+
 #ifndef MAX7219_H
 #define MAX7219_H
 
 #include <stdint.h>
 
+#include "LedWrapper.h"
+#include "LookupTable.h"
+
 namespace Driver {
     
     class MAX7219 {
-        public:
+        friend class Application::LedWrapper;
+        friend class Application::Lookuptable;
+        private:
             enum eRegisterMap {
               eNoOp = 0,
               eDigit0 = 1,
@@ -41,25 +53,21 @@ namespace Driver {
               eNormalOperationMode = 0x0001
             };
             
-            
             MAX7219(uint8_t numberInDaisyChain) : _u8NumberInDaisyChain(numberInDaisyChain){ }
-            void Init(void);
-            void ClearLEDs(void);
-            uint8_t GetValueForDigit(uint8_t u8Digit);
-            void SetOrClearBitForDigit(uint8_t u8Digit, uint8_t u8Bit, bool bOn);
-            
+            static void WriteDataToBus(unsigned short data);
+            static void SendDataToAddress(uint16_t u16Data, uint8_t u8Address, uint8_t u8Num);
             static MAX7219& GetMax7219ByNumber(uint8_t u8Number);
-            static void SendDataToAddress(unsigned short data, uint8_t address, uint8_t num);
+            
+            void SetOrClearBitForDigit(uint8_t u8Digit, uint8_t u8Bit, bool bOn);
+            uint8_t GetValueForDigit(uint8_t u8Digit);
+            void ClearLEDs(void);
+            void Init(void);
             
             static const uint8_t NUM_MAX7219_IN_DAISY_CHAIN = 8;
-        private:
+            static MAX7219 _aMAX7219[NUM_MAX7219_IN_DAISY_CHAIN];
             
             uint8_t _aValueForDigits[6];
             const uint8_t _u8NumberInDaisyChain;
-        
-            static void WriteDataToBus(unsigned short data);
-            
-            static MAX7219 _aMAX7219[NUM_MAX7219_IN_DAISY_CHAIN];
 };
 }
 
