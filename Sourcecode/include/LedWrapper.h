@@ -9,6 +9,9 @@
 #define LEDWRAPPER_H_
 
 #include <stdint.h>
+#include <map>
+
+#include "LookupTable.h"
 
 namespace Application {
 
@@ -55,22 +58,37 @@ public:
         eZehn2,
         eWZ
     };
+    
+    struct sWordInfos {
+      uint16_t _bfNumLeds   : 4;
+      uint16_t _bfStartPos  : 4;
+      uint16_t _bfLine      : 4;
+      uint16_t _bfDummy     : 4;
+    };
 
     // sets the color for all leds of the panel from the outside
-    static void SetColorForAllLeds(eLedColor eColor){ _eLedColor = eColor; }
+    static void SetColorForAllLeds(eLedColor eColor);
     static void InitLedWrapper(void);
     static void SetOrClearWord(eWords eWord, bool bOn = true);
 private:
     static eLedColor _eLedColor;
     //could maybe be made public if more complex stuff than words are to be shown
-    static void SetOrClearSingleLED(uint8_t u8x, uint8_t u8y, bool bOn = true);   
+    static void SetOrClearSingleLED(uint8_t u8x, uint8_t u8y, bool bOn = true);
+    static void SetOrClearSingleLED(Lookuptable::bfLookupTableEntry entry, bool bOn = true);
+    static void SetOrClearSingleLEDCommon(Lookuptable::bfLookupTableEntry entry, bool bOn = true);
     static void GetRgbByColor(eLedColor eColor, bool& rbR, bool& rbG, bool& rbB);
     static void SetAuthorModeLeds(void);
     static void StartMatrixMode(void);
     static void ClearPanel(void);
-
-    static const uint8_t NUM_LINES_ON_PANEL = 10;
-    static const uint8_t NUM_ROWS_ON_PANEL = 11;
+    
+    struct sRgbLedColor {
+      bool _bRed; 
+      bool _bGreen;
+      bool _bBlue;
+    };
+    
+    static std::map<eLedColor, sRgbLedColor> _colorMap;
+    static std::map<eWords, sWordInfos> _wordMap;
 };
 }
 

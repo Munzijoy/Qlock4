@@ -7,12 +7,15 @@
 #include "stm32f10x_rtc.h"
 #include "HW_RTC.h"
 #include "DeviceTime.h"
+#include "Delay.h"
 
 // ISRs needs to be written in a C section, not C++, thatswhy this is a C file,
 // so no seperate sections are needed. Place all required ISRs here (names can
 // be found in the asm startup file (*.s)
 
 // Real Time Clock Interrupt handler, catching the secound interrupt only
+volatile int32_t gs32SysTickCnt=0;
+
 void RTC_IRQHandler(void){
         // only catch the second interrupt
     if (RTC_GetITStatus(RTC_IT_SEC) != RESET){
@@ -28,4 +31,8 @@ void RTC_IRQHandler(void){
         // Wait until last write operation on RTC registers has finished
         RTC_WaitForLastTask();
     }
+}
+
+void SysTick_Handler(void){
+  Tools::Timing::gvs32SysTickCnt++;
 }

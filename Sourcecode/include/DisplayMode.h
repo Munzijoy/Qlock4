@@ -13,10 +13,10 @@ namespace Application {
 class DisplayMode {
 public:
     enum eDisplayMode {
-        eAuthorMode,
-        eTimeMode,
-        eMatrixEffectMode,
-        eEmptyMode,
+        eAuthorMode, // leds showing TL and SZ
+        eTimeMode, // leds showing time
+        eMatrixEffectMode, // leds showing matrix effect
+        eEmptyMode, // all leds off
     };
     
     static void SetAuthorMode(void);

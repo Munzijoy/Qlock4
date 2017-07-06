@@ -9,6 +9,7 @@
 #define MAX7219_H
 
 #include <stdint.h>
+#include <vector>
 
 #include "LedWrapper.h"
 #include "LookupTable.h"
@@ -56,7 +57,7 @@ namespace Driver {
             MAX7219(uint8_t numberInDaisyChain) : _u8NumberInDaisyChain(numberInDaisyChain){ }
             static void WriteDataToBus(unsigned short data);
             static void SendDataToAddress(uint16_t u16Data, uint8_t u8Address, uint8_t u8Num);
-            static MAX7219& GetMax7219ByNumber(uint8_t u8Number);
+            static MAX7219* GetMax7219ByNumber(uint8_t u8Number);
             
             void SetOrClearBitForDigit(uint8_t u8Digit, uint8_t u8Bit, bool bOn);
             uint8_t GetValueForDigit(uint8_t u8Digit);
@@ -64,7 +65,7 @@ namespace Driver {
             void Init(void);
             
             static const uint8_t NUM_MAX7219_IN_DAISY_CHAIN = 8;
-            static MAX7219 _aMAX7219[NUM_MAX7219_IN_DAISY_CHAIN];
+            static const std::vector<MAX7219*> _pMAX7219Vector;
             
             uint8_t _aValueForDigits[6];
             const uint8_t _u8NumberInDaisyChain;

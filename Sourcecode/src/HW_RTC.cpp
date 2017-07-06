@@ -18,8 +18,7 @@ namespace Hardware {
 
 void HW_RTC::Init(void){
     /* CK_RTC clock selection */
-    RCC_APB1PeriphClockCmd( RCC_APB1Periph_PWR | RCC_APB1Periph_BKP, ENABLE 
-    );
+    RCC_APB1PeriphClockCmd( RCC_APB1Periph_PWR | RCC_APB1Periph_BKP, ENABLE );
     PWR_BackupAccessCmd( ENABLE );  /* Allow access to BKP Domain */
     BKP_DeInit(); /* Reset Backup Domain */
     RCC_LSEConfig( RCC_LSE_ON ); /* Enable the LSE OSC */
